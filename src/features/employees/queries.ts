@@ -17,7 +17,7 @@ export async function getEmployees(salonId: number): Promise<EmployeeWithService
   }).then(rows => rows.map(e => ({
     ...e,
     services: e.services.map(es => es.service),
-  }))) as EmployeeWithServices[]
+  }))) as unknown as EmployeeWithServices[]
 }
 
 export async function getEmployeeById(id: number, salonId: number) {

@@ -46,7 +46,7 @@ export function RegisterForm() {
       if (res.success) {
         router.push('/?onboarding=1')
       } else {
-        setError(res.error.message)
+        setError(res.error)
       }
     })
   }

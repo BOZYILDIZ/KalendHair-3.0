@@ -4,8 +4,9 @@ import { and, eq } from 'drizzle-orm'
 import type { CreateEmployeeInput, UpdateEmployeeInput } from './types'
 
 export async function createEmployee(salonId: number, input: CreateEmployeeInput) {
+  const { serviceIds: _serviceIds, ...employeeData } = input
   const [emp] = await db.insert(employees)
-    .values({ salonId, ...input })
+    .values({ salonId, ...employeeData })
     .returning()
   return emp
 }

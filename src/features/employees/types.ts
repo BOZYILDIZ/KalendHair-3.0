@@ -1,5 +1,6 @@
 export type EmployeeRole = 'coiffeur' | 'manager' | 'owner' | 'stagiaire' | 'apprenti'
 
+
 export interface Employee {
   id: number
   salonId: number
@@ -21,11 +22,11 @@ export interface EmployeeWithServices extends Employee {
 export interface CreateEmployeeInput {
   firstName: string
   lastName: string
-  email?: string
-  phone?: string
+  email?: string | null
+  phone?: string | null
   role: EmployeeRole
-  color: string
-  serviceIds: number[]
+  color?: string
+  serviceIds?: number[]
 }
 
 export interface UpdateEmployeeInput extends Partial<CreateEmployeeInput> {

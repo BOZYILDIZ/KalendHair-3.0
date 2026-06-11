@@ -2,7 +2,7 @@
 import { signIn } from '@/shared/auth/config'
 import { registerSchema } from './validations'
 import { createSalonWithOwner, isSalonSlugAvailable } from './mutations'
-import { actionSuccess, actionError } from '@/shared/errors'
+import { actionSuccess, actionError, AppError } from '@/shared/errors'
 import type { z } from 'zod'
 
 function toSlug(name: string): string {
@@ -16,7 +16,7 @@ function toSlug(name: string): string {
 
 export async function registerSalonAction(raw: z.infer<typeof registerSchema>) {
   const parsed = registerSchema.safeParse(raw)
-  if (!parsed.success) return actionError('VALIDATION_ERROR', parsed.error.errors[0]?.message ?? 'Données invalides')
+  if (!parsed.success) return actionError(new AppError('VALIDATION_ERROR', parsed.error.errors[0]?.message ?? 'Données invalides'))
 
   const { salonName, ownerFirstName, ownerLastName, email, password, phone, city } = parsed.data
 
@@ -32,9 +32,9 @@ export async function registerSalonAction(raw: z.infer<typeof registerSchema>) {
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'Erreur inconnue'
     if (msg.includes('unique') || msg.includes('duplicate')) {
-      return actionError('CONFLICT', 'Un compte existe déjà avec cet email')
+      return actionError(new AppError('CONFLICT', 'Un compte existe déjà avec cet email'))
     }
-    return actionError('INTERNAL_ERROR', msg)
+    return actionError(new AppError('INTERNAL_ERROR', msg))
   }
 }
 

@@ -36,7 +36,10 @@ export interface PublicService {
   description: string | null
   category: string | null
   durationMinutes: number
-  price: string | null
+  price: number | null
+  priceMin: number | null
+  priceMax: number | null
+  priceOnQuote: boolean
   color: string | null
 }
 

@@ -39,12 +39,12 @@ export function ServiceList({ services }: Props) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, marginLeft: 16 }}>
                   <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>{service.durationMinutes} min</span>
-                  {service.price && (
+                  {(service.price !== null || service.priceMin !== null || service.priceOnQuote) && (
                     <span style={{
                       fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-primary)',
                       background: 'var(--color-primary-50)', padding: '0.25rem 0.625rem', borderRadius: 6,
                     }}>
-                      {formatServicePrice(service.price)}
+                      {formatServicePrice(service)}
                     </span>
                   )}
                 </div>

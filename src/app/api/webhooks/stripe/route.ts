@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       await db.update(appointments)
         .set({
           status: 'confirmed',
-          amountPaid: String(pi.amount_received / 100),
+          amountPaid: pi.amount_received / 100,
           stripePaymentIntentId: pi.id,
         })
         .where(eq(appointments.id, parseInt(appointmentId)))

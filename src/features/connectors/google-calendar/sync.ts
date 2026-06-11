@@ -24,7 +24,7 @@ export function buildGoogleEvent(appt: AppointmentWithDetails): GoogleCalendarEv
       `Client : ${clientName}`,
       `Service : ${appt.service.name}`,
       `Employé : ${appt.employee.firstName} ${appt.employee.lastName}`,
-      appt.client?.phone ? `Tél : ${appt.client.phone}` : '',
+      appt.guestPhone ? `Tél : ${appt.guestPhone}` : '',
       `RDV KalendHair #${appt.id}`,
     ].filter(Boolean).join('\n'),
     start: { dateTime: start, timeZone: 'Europe/Paris' },

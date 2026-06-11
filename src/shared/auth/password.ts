@@ -29,7 +29,7 @@ async function deriveKey(password: string, salt: Uint8Array | Buffer): Promise<A
     ['deriveBits']
   )
   return crypto.subtle.deriveBits(
-    { name: 'PBKDF2', salt, iterations: ITERATIONS, hash: DIGEST },
+    { name: 'PBKDF2', salt: new Uint8Array(salt), iterations: ITERATIONS, hash: DIGEST },
     keyMaterial,
     KEY_LENGTH * 8
   )

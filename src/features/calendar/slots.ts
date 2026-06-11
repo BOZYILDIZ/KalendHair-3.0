@@ -1,24 +1,21 @@
 import { db } from '@/shared/db/client'
-import { appointments, closedDays, employeeSchedules, salonSchedules } from '@/shared/db/schema'
-import { and, eq, or } from 'drizzle-orm'
+import { appointments, closedDays, employeeSchedules, salonSchedules, services } from '@/shared/db/schema'
+import { and, eq, isNull, or } from 'drizzle-orm'
 import type { SlotCheckInput, TimeSlot } from './types'
 
-// Vérifie si un créneau est disponible — règle métier centrale
 export async function checkSlotAvailability(input: SlotCheckInput): Promise<boolean> {
   const { salonId, employeeId, date, startTime, endTime } = input
   const dayOfWeek = getDayOfWeek(date)
 
-  // 1. Vérifier jour de fermeture
   const closed = await db.query.closedDays.findFirst({
     where: and(
       eq(closedDays.salonId, salonId),
       eq(closedDays.date, date),
-      or(eq(closedDays.employeeId, employeeId), eq(closedDays.employeeId, 0))
+      or(eq(closedDays.employeeId, employeeId), isNull(closedDays.employeeId))
     ),
   })
   if (closed) return false
 
-  // 2. Vérifier horaires de l'employé ce jour
   const empSchedule = await db.query.employeeSchedules.findFirst({
     where: and(eq(employeeSchedules.employeeId, employeeId), eq(employeeSchedules.dayOfWeek, dayOfWeek)),
   })
@@ -27,7 +24,6 @@ export async function checkSlotAvailability(input: SlotCheckInput): Promise<bool
     if (startTime < empSchedule.startTime || endTime > empSchedule.endTime) return false
   }
 
-  // 3. Vérifier conflits avec RDV existants
   const conflicts = await db.query.appointments.findMany({
     where: and(
       eq(appointments.salonId, salonId),
@@ -49,16 +45,23 @@ export async function checkSlotAvailability(input: SlotCheckInput): Promise<bool
   return true
 }
 
-// Génère les créneaux disponibles pour un employé/service/date
-export async function getAvailableSlots(
-  salonId: number,
-  employeeId: number,
-  date: string,
-  durationMinutes: number,
-  slotIntervalMinutes = 15,
-): Promise<TimeSlot[]> {
-  const dayOfWeek = getDayOfWeek(date)
+export async function getAvailableSlots(input: {
+  salonId: number
+  employeeId: number | null | undefined
+  date: string
+  serviceId: number
+  slotIntervalMinutes?: number
+}): Promise<TimeSlot[]> {
+  const { salonId, date, serviceId, slotIntervalMinutes = 15 } = input
+  const employeeId = input.employeeId ?? 0
 
+  const service = await db.query.services.findFirst({
+    where: eq(services.id, serviceId),
+    columns: { durationMinutes: true },
+  })
+  if (!service) return []
+
+  const dayOfWeek = getDayOfWeek(date)
   const schedule = await db.query.salonSchedules.findFirst({
     where: and(eq(salonSchedules.salonId, salonId), eq(salonSchedules.dayOfWeek, dayOfWeek)),
   })
@@ -67,13 +70,12 @@ export async function getAvailableSlots(
 
   const slots: TimeSlot[] = []
   let current = timeToMinutes(schedule.openTime)
-  const close = timeToMinutes(schedule.closeTime) - durationMinutes
+  const close = timeToMinutes(schedule.closeTime) - service.durationMinutes
 
   while (current <= close) {
     const startTime = minutesToTime(current)
-    const endTime = minutesToTime(current + durationMinutes)
+    const endTime = minutesToTime(current + service.durationMinutes)
 
-    // Exclure la pause déjeuner
     if (schedule.breakStartTime && schedule.breakEndTime) {
       const breakStart = timeToMinutes(schedule.breakStartTime)
       const breakEnd = timeToMinutes(schedule.breakEndTime)
@@ -83,7 +85,10 @@ export async function getAvailableSlots(
       }
     }
 
-    const available = await checkSlotAvailability({ salonId, employeeId, date, startTime, endTime })
+    const available = employeeId > 0
+      ? await checkSlotAvailability({ salonId, employeeId, date, startTime, endTime })
+      : true
+
     slots.push({ startTime, endTime, available })
     current += slotIntervalMinutes
   }
@@ -91,12 +96,10 @@ export async function getAvailableSlots(
   return slots
 }
 
-// ─── Helpers privés ──────────────────────────────────────────────────────────
-
 function getDayOfWeek(dateStr: string): number {
   const date = new Date(dateStr)
   const day = date.getDay()
-  return day === 0 ? 6 : day - 1 // 0=Lundi, 6=Dimanche
+  return day === 0 ? 6 : day - 1
 }
 
 function timeToMinutes(time: string): number {

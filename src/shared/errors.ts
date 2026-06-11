@@ -48,9 +48,12 @@ export function actionSuccess<T>(data: T): ActionResult<T> {
   return { success: true, data }
 }
 
-export function actionError<T>(error: AppError | string): ActionResult<T> {
+export function actionError<T>(error: AppError | Error | string): ActionResult<T> {
   if (error instanceof AppError) {
     return { success: false, error: error.message, code: error.code }
   }
-  return { success: false, error: error, code: 'INTERNAL_ERROR' }
+  if (error instanceof Error) {
+    return { success: false, error: error.message, code: 'INTERNAL_ERROR' }
+  }
+  return { success: false, error, code: 'INTERNAL_ERROR' }
 }

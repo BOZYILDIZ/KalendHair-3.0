@@ -79,8 +79,11 @@ export const salons = pgTable('salons', {
   region: varchar('region', { length: 100 }),
   latitude: real('latitude'),
   longitude: real('longitude'),
+  email: varchar('email', { length: 320 }),
   logoUrl: varchar('logo_url', { length: 500 }),
-  coverImageUrl: varchar('cover_image_url', { length: 500 }),
+  coverUrl: varchar('cover_url', { length: 500 }),
+  averageRating: real('average_rating'),
+  reviewCount: integer('review_count').default(0).notNull(),
   isActive: boolean('is_active').default(true).notNull(),
   onboardingCompleted: boolean('onboarding_completed').default(false).notNull(),
   featuredRank: integer('featured_rank'),
@@ -114,6 +117,7 @@ export const employees = pgTable('employees', {
   passwordHash: varchar('password_hash', { length: 255 }),
   role: employeeRoleEnum('role').default('coiffeur').notNull(),
   color: varchar('color', { length: 7 }).default('#C17A4A').notNull(),
+  bio: text('bio'),
   avatarUrl: varchar('avatar_url', { length: 500 }),
   isActive: boolean('is_active').default(true).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -355,6 +359,16 @@ export const employeesRelations = relations(employees, ({ one, many }) => ({
   services: many(employeeServices),
   schedules: many(employeeSchedules),
   appointments: many(appointments),
+}))
+
+export const servicesRelations = relations(services, ({ one, many }) => ({
+  salon: one(salons, { fields: [services.salonId], references: [salons.id] }),
+  employees: many(employeeServices),
+}))
+
+export const employeeServicesRelations = relations(employeeServices, ({ one }) => ({
+  employee: one(employees, { fields: [employeeServices.employeeId], references: [employees.id] }),
+  service: one(services, { fields: [employeeServices.serviceId], references: [services.id] }),
 }))
 
 export const appointmentsRelations = relations(appointments, ({ one }) => ({

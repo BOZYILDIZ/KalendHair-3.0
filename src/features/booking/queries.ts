@@ -12,7 +12,7 @@ export async function getPublicSalon(slug: string): Promise<PublicSalon | null> 
       coverUrl: true, averageRating: true, reviewCount: true,
     },
   })
-  return salon ?? null
+  return (salon ?? null) as unknown as PublicSalon | null
 }
 
 export async function getPublicServices(salonId: number): Promise<PublicService[]> {
@@ -20,7 +20,7 @@ export async function getPublicServices(salonId: number): Promise<PublicService[
     where: and(eq(services.salonId, salonId), eq(services.isActive, true)),
     columns: {
       id: true, name: true, description: true, category: true,
-      durationMinutes: true, price: true, color: true,
+      durationMinutes: true, price: true, priceMin: true, priceMax: true, priceOnQuote: true, color: true,
     },
     orderBy: (s, { asc }) => [asc(s.category), asc(s.name)],
   })

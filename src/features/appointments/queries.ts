@@ -19,7 +19,7 @@ export async function getAppointmentsByDate(salonId: number, date: string): Prom
       client: { columns: { id: true, firstName: true, lastName: true, email: true } },
     },
     orderBy: asc(appointments.startTime),
-  }) as AppointmentWithDetails[]
+  }) as unknown as AppointmentWithDetails[]
 }
 
 // Rendez-vous pour une semaine
@@ -36,7 +36,7 @@ export async function getAppointmentsByWeek(salonId: number, weekStart: string, 
       client: { columns: { id: true, firstName: true, lastName: true, email: true } },
     },
     orderBy: [asc(appointments.appointmentDate), asc(appointments.startTime)],
-  }) as AppointmentWithDetails[]
+  }) as unknown as AppointmentWithDetails[]
 }
 
 // Prochains N rendez-vous (pour le dashboard)
@@ -55,7 +55,7 @@ export async function getUpcomingAppointments(salonId: number, limit = 5): Promi
     },
     orderBy: [asc(appointments.appointmentDate), asc(appointments.startTime)],
     limit,
-  }) as AppointmentWithDetails[]
+  }) as unknown as AppointmentWithDetails[]
 }
 
 // Rendez-vous par ID (avec vérification salonId pour sécurité)

@@ -1,5 +1,5 @@
 import { db } from '@/shared/db/client'
-import { services } from '@/shared/db/schema'
+import { services, employeeServices } from '@/shared/db/schema'
 import { and, eq, asc } from 'drizzle-orm'
 import type { Service } from './types'
 
@@ -7,7 +7,7 @@ export async function getServices(salonId: number): Promise<Service[]> {
   return db.query.services.findMany({
     where: and(eq(services.salonId, salonId), eq(services.isActive, true)),
     orderBy: [asc(services.position), asc(services.name)],
-  }) as Service[]
+  }) as unknown as Service[]
 }
 
 export async function getServiceById(id: number, salonId: number) {
@@ -18,12 +18,12 @@ export async function getServiceById(id: number, salonId: number) {
 
 export async function getServicesByEmployee(employeeId: number, salonId: number): Promise<Service[]> {
   const result = await db.query.employeeServices.findMany({
-    where: (es, { eq }) => eq(es.employeeId, employeeId),
+    where: eq(employeeServices.employeeId, employeeId),
     with: {
       service: true,
     },
   })
   return result
     .map(r => r.service)
-    .filter(s => s.salonId === salonId && s.isActive) as Service[]
+    .filter(s => s !== null && s.salonId === salonId && s.isActive) as unknown as Service[]
 }

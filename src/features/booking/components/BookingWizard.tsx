@@ -56,7 +56,7 @@ export function BookingWizard({ salonId, salonSlug, salonName, services, employe
     if (!state.serviceId) return
     startTransition(async () => {
       const res = await getSlotsAction({ salonId, date, serviceId: state.serviceId!, employeeId: state.employeeId })
-      if (res.success) setSlots(res.data)
+      if (res.success) setSlots(res.data as TimeSlot[])
     })
   }
 
@@ -78,10 +78,10 @@ export function BookingWizard({ salonId, salonSlug, salonName, services, employe
         notes: state.notes,
       })
       if (res.success) {
-        setBookingId(res.data.appointmentId)
+        setBookingId((res.data as { appointmentId: number }).appointmentId)
         setState(prev => ({ ...prev, step: 'confirm' }))
       } else {
-        setError(res.error.message)
+        setError(res.error)
       }
     })
   }

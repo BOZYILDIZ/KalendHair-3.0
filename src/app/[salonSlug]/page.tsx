@@ -120,7 +120,7 @@ export default async function SalonPage({ params }: Props) {
                     </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginLeft: 16, flexShrink: 0 }}>
-                    {svc.price && <span style={{ fontWeight: 600, color: 'var(--color-primary)', fontSize: '1rem' }}>{formatServicePrice(svc.price)}</span>}
+                    {(svc.price !== null || svc.priceMin !== null || svc.priceOnQuote) && <span style={{ fontWeight: 600, color: 'var(--color-primary)', fontSize: '1rem' }}>{formatServicePrice(svc)}</span>}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-muted)" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
                   </div>
                 </Link>

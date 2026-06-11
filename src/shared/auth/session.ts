@@ -15,7 +15,7 @@ export async function requireAuth() {
 // Retourne le salon du pro connecté ou throw
 export async function requireSalon() {
   const session = await requireAuth()
-  const proAccountId = parseInt(session.user.id)
+  const proAccountId = parseInt(session.user!.id!)
 
   const salon = await db.query.salons.findFirst({
     where: eq(salons.proAccountId, proAccountId),

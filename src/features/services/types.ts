@@ -18,14 +18,14 @@ export interface Service {
 
 export interface CreateServiceInput {
   name: string
-  description?: string
+  description?: string | null
   durationMinutes: number
   price?: number
   priceMin?: number
   priceMax?: number
   priceOnQuote?: boolean
-  color: string
-  category?: ServiceCategory
+  color?: string
+  category?: ServiceCategory | string | null
 }
 
 export function formatServicePrice(service: Pick<Service, 'price' | 'priceMin' | 'priceMax' | 'priceOnQuote'>): string {
