@@ -1,0 +1,16 @@
+{
+  "name": "KalendHair",
+  "short_name": "KalendHair",
+  "description": "Gestion de salon de coiffure",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7F2",
+  "theme_color": "#C17A4A",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable any" }
+  ],
+  "categories": ["business", "productivity"],
+  "lang": "fr"
+}
