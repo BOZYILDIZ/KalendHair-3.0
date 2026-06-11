@@ -2,7 +2,9 @@ import type { Metadata } from 'next'
 import { requireSalonId } from '@/shared/auth/session'
 import { getAppointmentsByWeek } from '@/features/appointments/queries'
 import { getEmployees } from '@/features/employees/queries'
+import { getServices } from '@/features/services/queries'
 import { WeekCalendar } from '@/features/calendar/components/WeekCalendar'
+import { NewAppointmentButton } from '@/features/appointments/components/NewAppointmentButton'
 import { startOfWeek, endOfWeek, format } from 'date-fns'
 import { fr } from 'date-fns/locale'
 
@@ -22,9 +24,10 @@ export default async function CalendrierPage({
 
   const weekEnd = endOfWeek(weekStart, { weekStartsOn: 1 })
 
-  const [appointments, employees] = await Promise.all([
+  const [appointments, employees, services] = await Promise.all([
     getAppointmentsByWeek(salonId, format(weekStart, 'yyyy-MM-dd'), format(weekEnd, 'yyyy-MM-dd')),
     getEmployees(salonId),
+    getServices(salonId),
   ])
 
   return (
@@ -33,6 +36,11 @@ export default async function CalendrierPage({
         <h2 style={{ fontFamily: 'var(--font-playfair), serif', fontSize: '1.125rem', fontWeight: 600, color: 'var(--color-text)' }}>
           Semaine du {format(weekStart, 'd MMMM yyyy', { locale: fr })}
         </h2>
+        <NewAppointmentButton
+          salonId={salonId}
+          employees={employees.map(e => ({ id: e.id, firstName: e.firstName, lastName: e.lastName, color: e.color }))}
+          services={services.map(s => ({ id: s.id, name: s.name, durationMinutes: s.durationMinutes, price: s.price ?? null }))}
+        />
       </div>
       <WeekCalendar
         appointments={appointments}

@@ -17,6 +17,9 @@ export type ErrorCode =
   | 'CONNECTOR_AUTH_FAILED'
   | 'CONNECTOR_SYNC_FAILED'
   | 'PAYMENT_FAILED'
+  | 'TOKEN_INVALID'
+  | 'TOKEN_EXPIRED'
+  | 'TOKEN_USED'
   | 'INTERNAL_ERROR'
 
 export class AppError extends Error {

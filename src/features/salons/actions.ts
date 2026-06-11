@@ -1,8 +1,14 @@
 'use server'
+import { revalidatePath } from 'next/cache'
 import { signIn } from '@/shared/auth/config'
 import { registerSchema } from './validations'
 import { createSalonWithOwner, isSalonSlugAvailable } from './mutations'
 import { actionSuccess, actionError, AppError } from '@/shared/errors'
+import type { ActionResult } from '@/shared/errors'
+import { requireSalonId } from '@/shared/auth/session'
+import { db } from '@/shared/db/client'
+import { salons } from '@/shared/db/schema'
+import { eq } from 'drizzle-orm'
 import type { z } from 'zod'
 
 function toSlug(name: string): string {
@@ -42,4 +48,15 @@ export async function checkSlugAction(salonName: string) {
   const slug = toSlug(salonName)
   const available = await isSalonSlugAvailable(slug)
   return { slug, available }
+}
+
+export async function completeOnboardingAction(): Promise<ActionResult<void>> {
+  try {
+    const salonId = await requireSalonId()
+    await db.update(salons).set({ onboardingCompleted: true }).where(eq(salons.id, salonId))
+    revalidatePath('/')
+    return actionSuccess(undefined)
+  } catch (error) {
+    return actionError(error instanceof Error ? error : new Error('Erreur inconnue'))
+  }
 }

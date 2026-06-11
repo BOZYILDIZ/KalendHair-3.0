@@ -30,3 +30,14 @@ export async function updateAppointmentAction(formData: unknown) {
     return actionError(error as Error)
   }
 }
+
+export async function getSlotsAction(
+  salonId: number,
+  employeeId: number,
+  serviceId: number,
+  date: string,
+): Promise<string[]> {
+  const { getAvailableSlots } = await import('@/features/calendar/slots')
+  const slots = await getAvailableSlots({ salonId, employeeId, serviceId, date })
+  return slots.filter(s => s.available).map(s => s.startTime)
+}

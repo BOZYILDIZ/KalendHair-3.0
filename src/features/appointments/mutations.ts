@@ -1,10 +1,11 @@
 import { db } from '@/shared/db/client'
-import { appointments } from '@/shared/db/schema'
+import { appointments, cancellationTokens } from '@/shared/db/schema'
 import { eq, and } from 'drizzle-orm'
 import type { CreateAppointmentInput, UpdateAppointmentInput } from './types'
 import { AppError } from '@/shared/errors'
 import { checkSlotAvailability } from '@/features/calendar/slots'
 import { addMinutes, format } from 'date-fns'
+import { generateCancellationToken, tokenExpiresAt } from './token'
 
 export async function createAppointment(salonId: number, input: CreateAppointmentInput) {
   // 1. Récupérer la durée du service
@@ -47,7 +48,14 @@ export async function createAppointment(salonId: number, input: CreateAppointmen
     status: 'confirmed',
   }).returning()
 
-  return created!
+  const token = generateCancellationToken()
+  await db.insert(cancellationTokens).values({
+    appointmentId: created!.id,
+    token,
+    expiresAt: tokenExpiresAt(),
+  })
+
+  return { ...created!, cancellationToken: token }
 }
 
 export async function updateAppointmentStatus(
