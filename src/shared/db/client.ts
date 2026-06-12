@@ -2,12 +2,16 @@ import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 import * as schema from './schema'
 
+// Vercel serverless: disable persistent connections, use transaction pooler
+const isServerless = process.env.VERCEL === '1'
+
 const createDb = () =>
   drizzle(
     postgres(process.env.DATABASE_URL!, {
-      max: 10,
-      idle_timeout: 20,
+      max: isServerless ? 1 : 10,
+      idle_timeout: isServerless ? 0 : 20,
       connect_timeout: 10,
+      prepare: false, // required for pgBouncer / Supabase transaction pooler
     }),
     { schema },
   )

@@ -1,11 +1,14 @@
+import React from 'react'
 import { db } from '@/shared/db/client'
-import { appointments, cancellationTokens } from '@/shared/db/schema'
+import { appointments, cancellationTokens, salons, employees, services } from '@/shared/db/schema'
 import { eq, and } from 'drizzle-orm'
 import type { CreateAppointmentInput, UpdateAppointmentInput } from './types'
 import { AppError } from '@/shared/errors'
 import { checkSlotAvailability } from '@/features/calendar/slots'
 import { addMinutes, format } from 'date-fns'
 import { generateCancellationToken, tokenExpiresAt } from './token'
+import { sendEmail } from '@/shared/email/resend'
+import AppointmentConfirmation from '@/shared/email/templates/AppointmentConfirmation'
 
 export async function createAppointment(salonId: number, input: CreateAppointmentInput) {
   // 1. Récupérer la durée du service
@@ -54,6 +57,37 @@ export async function createAppointment(salonId: number, input: CreateAppointmen
     token,
     expiresAt: tokenExpiresAt(),
   })
+
+  // Send confirmation email to guest (fire-and-forget)
+  const recipientEmail = input.guestEmail ?? null
+  if (recipientEmail) {
+    const clientName = `${input.guestFirstName ?? ''} ${input.guestLastName ?? ''}`.trim() || 'Client'
+    const [y, mo, d] = created!.appointmentDate.split('-').map(Number)
+    const appointmentDate = new Date(y!, mo! - 1, d!).toLocaleDateString('fr-FR', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    })
+    const cancellationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/annulation/${token}`
+
+    Promise.all([
+      db.query.salons.findFirst({ where: eq(salons.id, salonId), columns: { name: true } }),
+      db.query.employees.findFirst({ where: eq(employees.id, input.employeeId), columns: { firstName: true, lastName: true } }),
+      db.query.services.findFirst({ where: eq(services.id, input.serviceId), columns: { name: true } }),
+    ]).then(([salonRow, employeeRow, serviceRow]) =>
+      sendEmail({
+        to: recipientEmail,
+        subject: `Confirmation de votre RDV chez ${salonRow?.name ?? 'le salon'}`,
+        react: React.createElement(AppointmentConfirmation, {
+          clientName,
+          salonName: salonRow?.name ?? 'Le salon',
+          serviceName: serviceRow?.name ?? 'Service',
+          employeeName: `${employeeRow?.firstName ?? ''} ${employeeRow?.lastName ?? ''}`.trim(),
+          appointmentDate,
+          startTime: created!.startTime.slice(0, 5),
+          cancellationUrl,
+        }),
+      })
+    ).catch(() => { /* fire-and-forget */ })
+  }
 
   return { ...created!, cancellationToken: token }
 }
