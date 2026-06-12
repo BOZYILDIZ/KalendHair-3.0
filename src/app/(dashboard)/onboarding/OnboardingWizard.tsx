@@ -89,7 +89,7 @@ export function OnboardingWizard({ salonId: _salonId }: { salonId: number }) {
           <div style={{ fontSize: '3rem', marginBottom: '0.5rem' }}>✅</div>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#2d1a0e', marginBottom: '0.75rem' }}>C&apos;est prêt !</h2>
           <p style={{ color: '#7a5c44', lineHeight: 1.6 }}>Votre salon est configuré. Vous pouvez maintenant gérer vos réservations, vos employés et vos services depuis votre tableau de bord.</p>
-          <button disabled={loading} style={{ ...btn, opacity: loading ? 0.7 : 1 }} onClick={async () => { setLoading(true); await completeOnboardingAction(); router.push('/') }}>
+          <button disabled={loading} style={{ ...btn, opacity: loading ? 0.7 : 1 }} onClick={async () => { setLoading(true); await completeOnboardingAction(); router.push('/dashboard') }}>
             {loading ? 'Chargement…' : 'Accéder au tableau de bord'}
           </button>
         </div>

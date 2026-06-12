@@ -54,7 +54,7 @@ export async function completeOnboardingAction(): Promise<ActionResult<void>> {
   try {
     const salonId = await requireSalonId()
     await db.update(salons).set({ onboardingCompleted: true }).where(eq(salons.id, salonId))
-    revalidatePath('/')
+    revalidatePath('/dashboard')
     return actionSuccess(undefined)
   } catch (error) {
     return actionError(error instanceof Error ? error : new Error('Erreur inconnue'))

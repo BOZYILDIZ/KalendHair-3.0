@@ -7,7 +7,7 @@ import {
 } from 'lucide-react'
 
 const NAV_ITEMS = [
-  { label: 'Vue d\'ensemble', href: '/', icon: LayoutDashboard, section: 'dashboard' },
+  { label: 'Vue d\'ensemble', href: '/dashboard', icon: LayoutDashboard, section: 'dashboard' },
   { label: 'Calendrier', href: '/calendrier', icon: Calendar, section: 'dashboard', badge: null },
   { label: 'Rendez-vous', href: '/rendez-vous', icon: Clock, section: 'dashboard' },
   { label: 'Clients', href: '/clients', icon: Users, section: 'dashboard' },
@@ -77,7 +77,7 @@ export function Sidebar({ salonName, salonSlug }: SidebarProps) {
                 {SECTION_LABELS[section]}
               </div>
               {items.map(({ label, href, icon: Icon }) => {
-                const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
+                const isActive = pathname === href || (href !== '/dashboard' && pathname.startsWith(href))
                 return (
                   <Link key={href} href={href} style={{
                     display: 'flex', alignItems: 'center', gap: 10,

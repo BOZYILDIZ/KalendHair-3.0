@@ -8,7 +8,7 @@ export default async function OnboardingPage() {
   const settings = await getSalonSettings(salonId)
 
   if (settings?.onboardingCompleted) {
-    redirect('/')
+    redirect('/dashboard')
   }
 
   return <OnboardingWizard salonId={salonId} />
