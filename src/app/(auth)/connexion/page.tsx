@@ -5,8 +5,7 @@ export const metadata: Metadata = { title: 'Connexion' }
 
 export default function ConnexionPage() {
   return (
-    <main className="auth-page min-h-screen flex items-center justify-center"
-      style={{ background: 'linear-gradient(135deg, #F5EDE2 0%, #FAF7F2 50%, #F0E8DA 100%)', padding: '2rem 1rem' }}>
+    <main style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #F5EDE2 0%, #FAF7F2 50%, #F0E8DA 100%)', padding: '2rem 1rem' }}>
       <div style={{ width: '100%', maxWidth: 420 }}>
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
