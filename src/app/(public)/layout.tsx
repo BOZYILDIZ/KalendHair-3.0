@@ -10,10 +10,10 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         borderBottom: '1px solid var(--color-border)',
       }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 2rem', height: '64px', display: 'flex', alignItems: 'center', gap: '2rem' }}>
-          <Link href="/" style={{ textDecoration: 'none', fontFamily: 'var(--font-serif)', fontSize: '1.375rem', fontWeight: 700, color: 'var(--color-primary)', letterSpacing: '-0.02em' }}>
+          <Link href="/" style={{ textDecoration: 'none', fontFamily: 'var(--font-playfair), serif', fontSize: '1.375rem', fontWeight: 700, color: 'var(--color-primary)', letterSpacing: '-0.02em' }}>
             KalendHair
           </Link>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: 1 }}>
+          <nav className="public-nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: 1 }}>
             <Link href="#fonctionnalites" style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)', textDecoration: 'none', fontWeight: 500 }}>
               Fonctionnalités
             </Link>

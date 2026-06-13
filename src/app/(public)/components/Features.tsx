@@ -21,7 +21,7 @@ export function Features() {
     <section id="fonctionnalites" style={{ padding: '5rem 2rem', background: 'var(--color-bg)' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+          <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontFamily: 'var(--font-playfair), serif', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
             Tout ce dont votre salon a besoin
           </h2>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.0625rem', maxWidth: '480px', margin: '0 auto' }}>

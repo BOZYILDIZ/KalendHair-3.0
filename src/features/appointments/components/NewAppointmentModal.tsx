@@ -75,7 +75,7 @@ export function NewAppointmentModal({ salonId, employees, services, open, onClos
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(44,26,14,0.4)', backdropFilter: 'blur(2px)' }} onClick={onClose} />
       <div className="kh-card animate-fade-in" style={{ position: 'relative', width: '100%', maxWidth: 520, maxHeight: '90vh', overflowY: 'auto', padding: '1.5rem', margin: '1rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-          <h3 style={{ fontFamily: 'var(--font-serif)', margin: 0 }}>Nouveau rendez-vous</h3>
+          <h3 style={{ fontFamily: 'var(--font-playfair), serif', margin: 0 }}>Nouveau rendez-vous</h3>
           <button type="button" onClick={onClose} className="kh-btn-ghost" style={{ padding: '0.25rem 0.5rem' }}>✕</button>
         </div>
 

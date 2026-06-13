@@ -23,7 +23,7 @@ export function Hero() {
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-primary)', display: 'inline-block' }} />
             <span style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--color-primary-dark)' }}>Nouveau — KalendHair V6</span>
           </div>
-          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)', fontFamily: 'var(--font-serif)', fontWeight: 700, lineHeight: 1.15, color: 'var(--color-text)', marginBottom: '1.25rem' }}>
+          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.25rem)', fontFamily: 'var(--font-playfair), serif', fontWeight: 700, lineHeight: 1.15, color: 'var(--color-text)', marginBottom: '1.25rem' }}>
             La réservation en ligne pour les{' '}
             <span style={{ color: 'var(--color-primary)' }}>salons de coiffure</span>
           </h1>

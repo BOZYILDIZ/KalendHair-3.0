@@ -21,7 +21,7 @@ export function HowItWorks() {
     <section id="salons" style={{ padding: '5rem 2rem', background: 'var(--color-bg-secondary)' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+          <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontFamily: 'var(--font-playfair), serif', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
             Lancez-vous en 3 étapes
           </h2>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.0625rem', maxWidth: '420px', margin: '0 auto' }}>
@@ -35,7 +35,7 @@ export function HowItWorks() {
                 width: '52px', height: '52px', borderRadius: 'var(--radius-lg)',
                 background: 'var(--color-primary)', color: '#fff',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'var(--font-serif)', fontSize: '1.125rem', fontWeight: 700,
+                fontFamily: 'var(--font-playfair), serif', fontSize: '1.125rem', fontWeight: 700,
                 flexShrink: 0,
               }}>
                 {number}

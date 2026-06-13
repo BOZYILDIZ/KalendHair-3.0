@@ -11,7 +11,7 @@ export function CtaFinal() {
         pointerEvents: 'none',
       }} />
       <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center', position: 'relative' }}>
-        <h2 style={{ fontSize: 'clamp(1.625rem, 4vw, 2.5rem)', fontFamily: 'var(--font-serif)', color: '#fff', fontWeight: 700, lineHeight: 1.2, marginBottom: '1rem' }}>
+        <h2 style={{ fontSize: 'clamp(1.625rem, 4vw, 2.5rem)', fontFamily: 'var(--font-playfair), serif', color: '#fff', fontWeight: 700, lineHeight: 1.2, marginBottom: '1rem' }}>
           Prêt à moderniser votre salon ?
         </h2>
         <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '1.0625rem', marginBottom: '2.25rem', lineHeight: 1.65 }}>

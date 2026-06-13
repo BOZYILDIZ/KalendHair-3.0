@@ -6,7 +6,7 @@ export function Footer() {
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', gap: '2rem', marginBottom: '2.5rem' }}>
           <div style={{ maxWidth: '280px' }}>
-            <p style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '0.625rem' }}>
+            <p style={{ fontFamily: 'var(--font-playfair), serif', fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-primary)', marginBottom: '0.625rem' }}>
               KalendHair
             </p>
             <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)', lineHeight: 1.6 }}>

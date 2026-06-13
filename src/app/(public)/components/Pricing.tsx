@@ -38,7 +38,7 @@ export function Pricing() {
     <section id="tarifs" style={{ padding: '5rem 2rem', background: 'var(--color-bg)' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
-          <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontFamily: 'var(--font-serif)', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
+          <h2 style={{ fontSize: 'clamp(1.5rem, 3vw, 2.25rem)', fontFamily: 'var(--font-playfair), serif', color: 'var(--color-text)', marginBottom: '0.75rem' }}>
             Des tarifs clairs, sans surprise
           </h2>
           <p style={{ color: 'var(--color-text-secondary)', fontSize: '1.0625rem' }}>
@@ -61,7 +61,7 @@ export function Pricing() {
               <div style={{ marginBottom: '1.25rem' }}>
                 <p style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--color-text)', marginBottom: '0.5rem' }}>{name}</p>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', marginBottom: '0.5rem' }}>
-                  <span style={{ fontSize: '2.25rem', fontWeight: 800, color: highlight ? 'var(--color-primary)' : 'var(--color-text)', fontFamily: 'var(--font-serif)' }}>{price}</span>
+                  <span style={{ fontSize: '2.25rem', fontWeight: 800, color: highlight ? 'var(--color-primary)' : 'var(--color-text)', fontFamily: 'var(--font-playfair), serif' }}>{price}</span>
                   <span style={{ color: 'var(--color-text-muted)', fontSize: '0.875rem' }}>{period}</span>
                 </div>
                 <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>{description}</p>
