@@ -87,11 +87,16 @@ export function LoginForm() {
 
       <button
         type="submit" disabled={loading}
-        className="kh-btn-primary"
-        style={{ width: '100%', justifyContent: 'center', padding: '0.75rem', opacity: loading ? 0.7 : 1 }}
+        style={{
+          width: '100%', padding: '0.875rem', marginTop: '0.25rem',
+          backgroundColor: '#C17A4A', color: '#fff', border: 'none', borderRadius: 8,
+          fontWeight: 600, fontSize: '0.9375rem', cursor: loading ? 'default' : 'pointer',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+          opacity: loading ? 0.7 : 1, transition: 'background-color 0.15s',
+        }}
       >
         <LogIn size={16} />
-        {loading ? 'Connexion...' : 'Se connecter'}
+        {loading ? 'Connexion…' : 'Se connecter'}
       </button>
     </form>
   )
