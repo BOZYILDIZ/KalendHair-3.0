@@ -5,8 +5,8 @@ export const metadata: Metadata = { title: 'Connexion' }
 
 export default function ConnexionPage() {
   return (
-    <main style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #F5EDE2 0%, #FAF7F2 50%, #F0E8DA 100%)', padding: '2rem 1rem' }}>
-      <div style={{ width: '100%', maxWidth: 420 }}>
+    <div style={{ width: '100%', minHeight: '100dvh', background: 'linear-gradient(135deg, #F5EDE2 0%, #FAF7F2 50%, #F0E8DA 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem', boxSizing: 'border-box' }}>
+      <div style={{ width: '100%', maxWidth: 420, marginLeft: 'auto', marginRight: 'auto' }}>
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: '0.875rem' }}>
@@ -37,6 +37,6 @@ export default function ConnexionPage() {
           </a>
         </p>
       </div>
-    </main>
+    </div>
   )
 }
